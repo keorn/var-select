@@ -1,0 +1,7 @@
+*.ipynb_checkpoints
+old
+*.png
+*.jld
+.idea*
+labels.txt
+images
