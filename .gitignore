@@ -2,6 +2,8 @@
 old
 *.png
 *.jld
+*.hdf5
 .idea*
 labels.txt
 images
+

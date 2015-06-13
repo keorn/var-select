@@ -1,6 +1,6 @@
 module Generator
 """ functions used for data generation """
-export getSample, pointsToImage
+export getSample, pointsToDense, pointsToImage
 
 
 using Images
@@ -68,13 +68,12 @@ function discretizeVector(vector::Array{Float32,1}, bins::Int)
   return vectorDiscrete += 1                            # move values so they are array indices
 end
 
-
-function pointsToImage(x::Array{Float32,1}, y::Array{Float32,1}, SampleSize::Int)
-    """ Take coordinates of points and create an image,
-    where pixel brightness is proportional to point density in that region """
+function pointsToDense(x::Array{Float32,1}, y::Array{Float32,1}, SampleSize::Int)
+    """ Take coordinates of points and create a dense matrix,
+    value is proportional to point density in that region """
     xDiscrete = discretizeVector(x, SampleSize);
     yDiscrete = discretizeVector(y, SampleSize);
-    SampleSpace = zeros(Uint16, SampleSize, SampleSize);
+    SampleSpace = zeros(Float32, SampleSize, SampleSize);
     for i = 1:size(x)[1]
         try
           SampleSpace[xDiscrete[i], yDiscrete[i]]+= 1;
@@ -83,7 +82,15 @@ function pointsToImage(x::Array{Float32,1}, y::Array{Float32,1}, SampleSize::Int
           show(xDiscrete)
         end
     end
-    return sc(grayim(SampleSpace))
+    SampleSpace = SampleSpace - minimum(SampleSpace)
+    return SampleSpace./maximum(SampleSpace)
+end
+
+
+function pointsToImage(x::Array{Float32,1}, y::Array{Float32,1}, SampleSize::Int)
+    """ Take coordinates of points and create an image,
+    where pixel brightness is proportional to point density in that region """
+    return sc(grayim(pointsToDense(x, y, SampleSize)))
 end
 
 end

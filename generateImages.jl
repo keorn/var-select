@@ -6,7 +6,7 @@ based on Nvidia DIGITS Image Folder Specification.
 =#
 
 # Number od samples
-const DataSize   = 10000
+const DataSize   = 1000
 
 # Sample parameters
 const SamplePoints = 100
