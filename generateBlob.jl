@@ -1,3 +1,4 @@
+include("Generator.jl")
 using Generator, HDF5
 
 #=
@@ -37,7 +38,7 @@ for j=1:DataSize
 end
 toc()
 
-Index(p) = round(DataSize*p)
+Index(p) = round(Int, DataSize*p)
 
 # Write files
 h5write("data/train.hdf5", "data",  data[:, :, 1, 1:Index(TrainPart)])

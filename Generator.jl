@@ -1,5 +1,5 @@
-module Generator
 """ functions used for data generation """
+module Generator
 export getSample, pointsToDense, pointsToImage
 
 
@@ -25,7 +25,7 @@ function getLabel(y0, y)
 end
 
 # Helper function for model(x, j)
-numberOrX(x) = randbool() ? x : ModelNumbers
+numberOrX(x) = rand(Bool) ? x : ModelNumbers
 
 function model(x, j)
   """ Recursive function that generates expressions from:
@@ -64,7 +64,7 @@ function discretizeVector(vector::Array{Float32,1}, bins::Int)
     return ones(size(vector))
   end
   vectorInRange = vectorInRange/vectorInterval*(bins-1) # scale values in to bins range
-  vectorDiscrete = round(Uint32, vectorInRange)         # round the values
+  vectorDiscrete = round(UInt32, vectorInRange)         # round the values
   return vectorDiscrete += 1                            # move values so they are array indices
 end
 
